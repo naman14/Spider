@@ -29,6 +29,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    implementation 'androidx.appcompat:appcompat:1.0.0-alpha1'
+
     implementation 'androidx.core:core-ktx:1.0.0-alpha1'
     implementation 'androidx.fragment:fragment-ktx:1.0.0-alpha1'
 
@@ -39,11 +41,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.koushikdutta.async:androidasync:2.+'
 
     def lifecycle_version = "2.0.0-alpha1"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 }
 repositories {

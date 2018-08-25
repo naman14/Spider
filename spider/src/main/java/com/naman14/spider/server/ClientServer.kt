@@ -1,59 +1,113 @@
 package com.naman14.spider.server
 
 import android.content.Context
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import com.koushikdutta.async.http.server.AsyncHttpServer
+import com.koushikdutta.async.callback.DataCallback
+import com.koushikdutta.async.http.WebSocket
+import com.koushikdutta.async.callback.CompletedCallback
+import com.koushikdutta.async.http.server.HttpServerRequestCallback
+import com.naman14.spider.db.RequestEntity
+import com.naman14.spider.db.RequestsDao
+import com.naman14.spider.db.SpiderDatabase
+import com.naman14.spider.models.NetworkCall
+import com.naman14.spider.sendToAll
+import com.naman14.spider.toJSONString
+import com.naman14.spider.toRequestEntity
+import com.naman14.spider.utils.Utils
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.Observer
 
-import java.io.IOException
-import java.net.ServerSocket
-import java.net.SocketException
+class ClientServer(context: Context): LifecycleOwner {
 
-class ClientServer(context: Context, private val mPort: Int) : Runnable {
+    private lateinit var websocketServer: AsyncHttpServer
+    private lateinit var httpServer: AsyncHttpServer
+    private lateinit var httpCallback: HttpServerRequestCallback
+    private lateinit var websocketCallback: AsyncHttpServer.WebSocketRequestCallback
+    private var memoryDb: RequestsDao = SpiderDatabase.getMemoryInstance(context)!!.requestsDao()
+    private var lifecycleRegistry: LifecycleRegistry = LifecycleRegistry(this)
 
-    private val mRequestHandler: RequestHandler
-    private var isRunning: Boolean = false
-    private var mServerSocket: ServerSocket? = null
+    private val socketList = ArrayList<WebSocket>()
 
     init {
-        mRequestHandler = RequestHandler(context)
+        lifecycleRegistry.markState(Lifecycle.State.STARTED)
+        startServer(context)
     }
 
-    fun start() {
-        isRunning = true
-        Thread(this).start()
+    private fun startServer(context: Context) {
+
+        initRequestHandler(context)
+
+        websocketServer = AsyncHttpServer()
+        websocketServer.websocket("/", null, websocketCallback)
+        websocketServer.listen(6061)
+
+        httpServer = AsyncHttpServer()
+        httpServer.get(".*.", httpCallback)
+        httpServer.listen(6060)
     }
 
-    fun stop() {
-        try {
-            isRunning = false
-            if (null != mServerSocket) {
-                mServerSocket!!.close()
-                mServerSocket = null
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error closing the server socket.", e)
+    private fun initRequestHandler(context: Context) {
+
+        httpCallback = HttpServerRequestCallback { request, response ->
+            var route = request.path.substring(1)
+            if (route == "") route = "index.html"
+            response.send(Utils.detectMimeType(route), Utils.loadContent(route, context.assets))
+
         }
 
-    }
+        websocketCallback = AsyncHttpServer.WebSocketRequestCallback { webSocket, request ->
+            socketList.add(webSocket)
 
-    override fun run() {
-        try {
-            mServerSocket = ServerSocket(mPort)
-            while (isRunning) {
-                val socket = mServerSocket!!.accept()
-                mRequestHandler.handle(socket)
-                socket.close()
+            webSocket.closedCallback = CompletedCallback { ex ->
+                try {
+                    ex?.printStackTrace()
+                } finally {
+                    socketList.remove(webSocket)
+                }
             }
-        } catch (e: SocketException) {
-            // The server was stopped; ignore.
-        } catch (e: IOException) {
-            Log.e(TAG, "Web server error.", e)
-        } catch (ignore: Exception) {
-            Log.e(TAG, "Exception.", ignore)
+
+            webSocket.stringCallback = WebSocket.StringCallback { s ->
+                try {
+                    handleMessage(s, webSocket)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+
+            webSocket.dataCallback = DataCallback { dataEmitter, byteBufferList -> byteBufferList.recycle() }
+
+            val liveData = memoryDb.getAllRequests()
+            Handler(Looper.getMainLooper()).post({
+                liveData.observeForever(object: Observer<List<RequestEntity>> {
+                    override fun onChanged(it: List<RequestEntity>) {
+                        sendRequests(it)
+                    }
+                })
+            })
+
         }
+    }
+
+    private fun handleMessage(message: String, socket: WebSocket) {
 
     }
 
-    companion object {
-        private val TAG = "ClientServer"
+    private fun sendResponse(route: String) {
+
     }
+
+    fun sendRequests(requests: List<RequestEntity>) {
+        socketList.sendToAll(requests.toJSONString())
+    }
+
+    fun sendNetworkCall(networkCall: NetworkCall) {
+        socketList.sendToAll(networkCall.toRequestEntity().toJSONString())
+    }
+
+    override fun getLifecycle(): Lifecycle = lifecycleRegistry
+
 }

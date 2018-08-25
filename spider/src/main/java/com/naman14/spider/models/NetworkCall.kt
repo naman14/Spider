@@ -3,16 +3,16 @@ package com.naman14.spider.models
 import okhttp3.Request
 import okhttp3.Response
 
-class NetworkCall(id: String, request: Request, response: Response) {
+class NetworkCall(request: Request, response: Response?) {
 
-    private var id: String? = null
+    var id: String
     @Transient
-    private var request: Request
-    private var networkRequest: NetworkRequest
-    private var networkResponse: NetworkResponse? = null
+    var request: Request
+    var networkRequest: NetworkRequest
+    var networkResponse: NetworkResponse? = null
 
     init {
-        this.id = id
+        this.id = generateId(request)
         this.request = request
         this.networkRequest = NetworkRequest(request)
         this.networkResponse = NetworkResponse(response)
