@@ -7,8 +7,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "requests")
 data class  RequestEntity(@PrimaryKey(autoGenerate = false) @NonNull var uri: String = "",
+                          @ColumnInfo(name = "path") var path: String? = null,
                           @ColumnInfo(name = "request_headers") var requestHeaders: String? = null,
-                          @ColumnInfo(name = "request_body") var requestBody: String? = null,
+                          @ColumnInfo(name = "request_body_map") var requestBodyMap: String? = null,
+                          @ColumnInfo(name = "request_string") var requestString: String? = null,
                           @ColumnInfo(name = "request_method") var requestMethod: String? = null,
                           @ColumnInfo(name = "request_sent_at") var requestSentAt: Long? = 0,
                           @ColumnInfo(name = "response_status_code") var responseStatusCode: Int? = 0,

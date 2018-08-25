@@ -82,5 +82,9 @@ class NetworkRequest(request: Request?) {
         }
     }
 
+    fun getRequestPath(): String {
+        return uri.path
+    }
+
 
 }

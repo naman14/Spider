@@ -3,8 +3,6 @@ package com.naman14.spider.server
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.koushikdutta.async.http.server.AsyncHttpServer
 import com.koushikdutta.async.callback.DataCallback
 import com.koushikdutta.async.http.WebSocket
@@ -13,27 +11,26 @@ import com.koushikdutta.async.http.server.HttpServerRequestCallback
 import com.naman14.spider.db.RequestEntity
 import com.naman14.spider.db.RequestsDao
 import com.naman14.spider.db.SpiderDatabase
-import com.naman14.spider.models.NetworkCall
 import com.naman14.spider.sendToAll
 import com.naman14.spider.toJSONString
-import com.naman14.spider.toRequestEntity
 import com.naman14.spider.utils.Utils
-import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.Observer
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.koushikdutta.async.http.body.AsyncHttpRequestBody
 
-class ClientServer(context: Context): LifecycleOwner {
+class ClientServer(context: Context) {
 
     private lateinit var websocketServer: AsyncHttpServer
     private lateinit var httpServer: AsyncHttpServer
     private lateinit var httpCallback: HttpServerRequestCallback
     private lateinit var websocketCallback: AsyncHttpServer.WebSocketRequestCallback
     private var memoryDb: RequestsDao = SpiderDatabase.getMemoryInstance(context)!!.requestsDao()
-    private var lifecycleRegistry: LifecycleRegistry = LifecycleRegistry(this)
+    private var diskDb: RequestsDao = SpiderDatabase.getDiskInstance(context)!!.requestsDao()
 
     private val socketList = ArrayList<WebSocket>()
 
     init {
-        lifecycleRegistry.markState(Lifecycle.State.STARTED)
         startServer(context)
     }
 
@@ -54,9 +51,22 @@ class ClientServer(context: Context): LifecycleOwner {
 
         httpCallback = HttpServerRequestCallback { request, response ->
             var route = request.path.substring(1)
-            if (route == "") route = "index.html"
-            response.send(Utils.detectMimeType(route), Utils.loadContent(route, context.assets))
+            val command = request.query.getString("command")
+            if (command != null && command.isNotEmpty()) {
+                when (command) {
+                    "updateCall" -> {
+                        val body: AsyncHttpRequestBody<String> = request.body as AsyncHttpRequestBody<String>
+                        val type = object : TypeToken<RequestEntity>() {}.type
+                        val requestEntity: RequestEntity = Gson().fromJson(body.get(), type)
+                        diskDb.insertRequest(requestEntity)
 
+                    }
+                }
+                response.send("Success")
+            } else {
+                if (route == "") route = "index.html"
+                response.send(Utils.detectMimeType(route), Utils.loadContent(route, context.assets))
+            }
         }
 
         websocketCallback = AsyncHttpServer.WebSocketRequestCallback { webSocket, request ->
@@ -96,18 +106,8 @@ class ClientServer(context: Context): LifecycleOwner {
 
     }
 
-    private fun sendResponse(route: String) {
-
-    }
-
     fun sendRequests(requests: List<RequestEntity>) {
         socketList.sendToAll(requests.toJSONString())
     }
-
-    fun sendNetworkCall(networkCall: NetworkCall) {
-        socketList.sendToAll(networkCall.toRequestEntity().toJSONString())
-    }
-
-    override fun getLifecycle(): Lifecycle = lifecycleRegistry
 
 }

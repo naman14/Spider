@@ -22,6 +22,14 @@ class NetworkCall(request: Request, response: Response?) {
         return request.url().url().toString()
     }
 
+    fun generateUniqueId(request: Request): String {
+        return generateId(request) + System.nanoTime()
+    }
+
+    fun getRequestPath(): String {
+        return networkRequest.getRequestPath()
+    }
+
     fun getFormattedNetworkCallTime(): String {
         networkResponse?.let { response ->
             val networkCallTime = (response.responseReceivedAtNano - networkRequest.requestSentAtNano) / 1e3

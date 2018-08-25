@@ -22,7 +22,7 @@ interface RequestsDao {
     @Query("SELECT * FROM requests")
     fun getAllRequestsSync(): List<RequestEntity>
 
-    @Query("SELECT * FROM requests where id = :id")
+    @Query("SELECT * FROM requests where uri = :id")
     fun getRequestSync(id: String): List<RequestEntity>
 
     @Query("DELETE from requests")
@@ -31,7 +31,6 @@ interface RequestsDao {
     @Query("DELETE from requests")
     fun clearRequests()
 
-    @Query("")
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRequest(request: RequestEntity)

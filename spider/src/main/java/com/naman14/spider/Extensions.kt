@@ -19,8 +19,10 @@ fun List<RequestEntity>.toJSONString(): String {
 
 fun NetworkCall.toRequestEntity(): RequestEntity {
     return RequestEntity(id,
+            networkRequest.getRequestPath(),
             networkRequest.headerMap.toJsonString(),
             networkRequest.bodyMap.toJsonString(),
+            networkRequest.requestString,
             networkRequest.method,
             networkRequest.requestSentAtNano,
             networkResponse?.statusCode,
