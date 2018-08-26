@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
-
+import android.app.ActivityManager
 
 object Utils {
 
@@ -65,5 +65,10 @@ object Utils {
             }
 
         }
+    }
+
+    fun getPackageName(context: Context): String {
+        val mActivityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        return mActivityManager.runningAppProcesses[0].processName
     }
 }

@@ -3,6 +3,7 @@ package com.naman14.spider.app
 import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import com.naman14.spider.app.data.DataHandler
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,7 +15,7 @@ class MainActivity : Activity(), Callback<Any> {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        DataHandler.getInstance(this)?.apiService?.getTodos()?.enqueue(this)
+        DataHandler.getInstance(this)?.apiService?.getTodos("TestHeader")?.enqueue(this)
 
         Handler().postDelayed( {
             DataHandler.getInstance(this)?.apiService?.getPosts()?.enqueue(this)

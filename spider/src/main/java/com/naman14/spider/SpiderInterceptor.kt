@@ -104,6 +104,7 @@ class SpiderInterceptor: Interceptor {
         } else {
             memoryDb.insertRequest(networkCall.toRequestEntity())
             val originalResponse = chain.proceed(originalRequest)
+            networkCall.networkResponse = NetworkResponse(originalResponse)
             memoryDb.insertRequest(networkCall.toRequestEntity())
             return originalResponse
         }

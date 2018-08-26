@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.koushikdutta.async.http.WebSocket
 import com.naman14.spider.db.RequestEntity
 import com.naman14.spider.models.NetworkCall
+import com.naman14.spider.utils.NetworkUtils
 
 fun MutableMap<String, String>.toJsonString(): String? {
     return Gson().toJson(this)
@@ -18,6 +19,7 @@ fun List<RequestEntity>.toJSONString(): String {
 }
 
 fun NetworkCall.toRequestEntity(): RequestEntity {
+    val successful = networkResponse != null
     return RequestEntity(id,
             networkRequest.getRequestPath(),
             networkRequest.headerMap.toJsonString(),
@@ -27,7 +29,10 @@ fun NetworkCall.toRequestEntity(): RequestEntity {
             networkRequest.requestSentAtNano,
             networkResponse?.statusCode,
             networkResponse?.responseString,
-            networkResponse?.responseReceivedAtNano)
+            networkResponse?.headerMap?.toJsonString(),
+            networkResponse?.responseReceivedAtNano,
+            successful,
+            NetworkUtils.getCurlRequest(this))
 }
 
 fun List<WebSocket>.sendToAll(data: String) {

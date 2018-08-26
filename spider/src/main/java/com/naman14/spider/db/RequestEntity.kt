@@ -15,6 +15,7 @@ data class  RequestEntity(@PrimaryKey(autoGenerate = false) @NonNull var uri: St
                           @ColumnInfo(name = "request_sent_at") var requestSentAt: Long? = 0,
                           @ColumnInfo(name = "response_status_code") var responseStatusCode: Int? = 0,
                           @ColumnInfo(name = "response_string") var responseString: String? = null,
+                          @ColumnInfo(name = "response_headers") var responseHeaders: String? = null,
                           @ColumnInfo(name = "response_received_at") var responseReceivedAt: Long? = 0,
                           @ColumnInfo(name = "request_successful") var isSuccessful: Boolean? = false,
                           @ColumnInfo(name = "curl") var curl: String? = null)

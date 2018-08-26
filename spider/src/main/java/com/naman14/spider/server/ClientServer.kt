@@ -1,8 +1,10 @@
 package com.naman14.spider.server
 
 import android.content.Context
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.koushikdutta.async.http.server.AsyncHttpServer
 import com.koushikdutta.async.callback.DataCallback
 import com.koushikdutta.async.http.WebSocket
@@ -18,6 +20,7 @@ import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.koushikdutta.async.http.body.AsyncHttpRequestBody
+import org.json.JSONObject
 
 class ClientServer(context: Context) {
 
@@ -59,10 +62,12 @@ class ClientServer(context: Context) {
                         val type = object : TypeToken<RequestEntity>() {}.type
                         val requestEntity: RequestEntity = Gson().fromJson(body.get(), type)
                         diskDb.insertRequest(requestEntity)
-
+                        response.send("Success")
+                    }
+                    "getDeviceInfo" -> {
+                        response.send(JSONObject().put("deviceName", Build.MODEL).put("packageName", Utils.getPackageName(context)))
                     }
                 }
-                response.send("Success")
             } else {
                 if (route == "") route = "index.html"
                 response.send(Utils.detectMimeType(route), Utils.loadContent(route, context.assets))

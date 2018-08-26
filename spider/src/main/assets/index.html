@@ -1,14 +1,120 @@
 <html>
+        <head></head>
+                <title>Spider</title>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">            
+                            
+                <script src="jquery.min.js"></script>
+                <script src="bootstrap.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+                <script src="main.js"></script>
+            
+                <link href="bootstrap.min.css" rel="stylesheet">
+                <link href="styles.css" rel="stylesheet">
+            
+            </head>
 <body>
-    <p>test</p>
-    
-    <script src="main.js"></script>
 
-    <script>
-    window.document.addEventListener("DOMContentLoaded", function(event) { 
-        connect()
-    });
-    </script>
+    <div id="app">
+            <h3 style="margin-left: 20px;">{{deviceName}}</h3>
+            <h4 style="margin-left: 20px;">{{packageName}}</h4>
+
+            <div class="list-group">
+                    <div  class="list-group-item list-group-item-action" v-for="call in networkCallList">
+                        <div v-on:click="currentNetworkCall = call">
+                        <h4><span v-bind:class="[call.responseStatusCode == 200 ? 'label-success' : 'label-default']" 
+                            class="label">{{call.responseStatusCode}}  {{call.requestMethod}}</span></h4>
+    
+                          <h3 style="font-weight:bold;">{{call.path}}</h3>
+    
+                          <p>{{getResponseTimeString(call)}}</p>
+
+                        </div>
+                            <div v-if="currentNetworkCall === call">
+                                    <div class="row">
+                                            <div class="col-sm-6">
+                                              <h4 style="font-weight:bold;">Request</h4>
+
+                                            <div>
+                                                <p style="font-weight: bold;">URL</p>
+                                                <p class="text-box">{{currentNetworkCall.uri}}</p>
+
+                                            </div>
+
+                                            <div v-if="currentNetworkCall.requestHeaders != '{}'">
+                                                <p style="font-weight: bold;">Headers</p>
+
+                                                <div class="list-group">
+                                                <div v-for="(value, key) in parseJson(currentNetworkCall.requestHeaders)" 
+                                                class="list-group-item, border-0">
+                                                   <p class="text-box">{{key}}: {{value}}</p>
+                                                </div>
+                                            </div>
+                                            </div>
+
+
+                                            <div v-if="currentNetworkCall.requestBodyMap != '{}'">
+                                                    <p style="font-weight: bold;">Parameters</p>
+
+                                                    <div class="list-group">
+                                                        <div v-for="(value, key) in parseJson(currentNetworkCall.requestBodyMap)" 
+                                                        class="list-group-item, border-0">
+                                                            <p class="text-box">{{key}}: {{value}}</p>
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+
+                                            <div v-if="currentNetworkCall.requestString != ''">
+                                                    <p style="font-weight: bold;">Request Body</p>
+                                                    <p class="text-box">{{beautifyJson(currentNetworkCall.requestString)}}</p>
+                                                </div>
+
+                                            <div>
+                                             <p style="font-weight: bold;">CURL</p>
+                                             <p class="text-box">{{currentNetworkCall.curl}}</p>
+                                            </div>
+
+                                            
+                                            
+                                            </div>
+                                            <div class="col-sm-6">
+                                             <h4 style="font-weight:bold;">Response</h4>
+
+                                             <div>
+                                                    <p style="font-weight: bold;">Latency</p>
+                                                    <p class="text-box">{{getResponseTimeString(currentNetworkCall)}}</p>
+
+                                            </div>
+
+
+                                             <div>
+                                                    <p style="font-weight: bold;">Headers</p>
+    
+                                                    <div class="list-group">
+                                                    <div v-for="(value, key) in parseJson(currentNetworkCall.responseHeaders)" 
+                                                    class="list-group-item, border-0">
+                                                       <p class="text-box">{{key}}: {{value}}</p>
+                                                    </div>
+                                                </div>
+                                                </div>
+
+                                            <div>
+                                                    <p style="font-weight: bold;">Response Body</p>
+                                                    <p class="text-box">{{beautifyJson(currentNetworkCall.responseString)}}</p>
+
+                                            </div>
+                
+                                            </div>
+                                    </div>
+                
+                            </div>
+                        </div>        
+            </div>
+
+           
+    </div>
+       
 </body>
 
 </html>

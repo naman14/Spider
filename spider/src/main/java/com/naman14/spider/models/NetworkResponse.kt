@@ -1,6 +1,7 @@
 package com.naman14.spider.models
 
 import com.naman14.spider.utils.Constants
+import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 import java.nio.charset.UnsupportedCharsetException
@@ -10,6 +11,7 @@ class NetworkResponse(response: Response?) {
     var statusCode: Int = 0
     var isSuccessful: Boolean = false
     var responseString: String? = null
+    var headerMap: MutableMap<String, String>? = null
     var networkRequest: NetworkRequest? = null
     var responseReceivedAtNano: Long = 0
 
@@ -18,13 +20,27 @@ class NetworkResponse(response: Response?) {
             this.statusCode = response.code()
             this.isSuccessful = response.isSuccessful
             this.responseString = ""
+            this.headerMap = HashMap()
             this.networkRequest = NetworkRequest(response.request())
             this.responseReceivedAtNano = System.nanoTime()
+            parseRequestForHeaderMap(response)
             parseRequestForResponseString(response)
         }
     }
 
-    fun parseRequestForResponseString(response: Response) {
+    private fun parseRequestForHeaderMap(response: Response) {
+        headerMap?.let {
+            if (response.headers() != null) {
+                val headers = response.headers()
+                for (headerKey in headers.names()) {
+                    this.headerMap!![headerKey] = headers.get(headerKey)
+                }
+            }
+        }
+
+    }
+
+    private fun parseRequestForResponseString(response: Response) {
         val responseBody = response.body()
         try {
             val source = responseBody.source()
