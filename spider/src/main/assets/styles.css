@@ -1,6 +1,21 @@
 .text-box {
+    /* white-space:pre; */
+    background-color: ghostwhite;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.text-box-body {
     white-space:pre;
     background-color: ghostwhite;
     border-radius: 5px;
     padding: 10px;
 }
+
+.col-sm-6 {
+    -moz-hyphens:auto;
+    -ms-hyphens:auto;
+    -webkit-hyphens:auto;
+    hyphens:auto;
+    word-wrap:break-word;
+ }

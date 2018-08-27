@@ -20,8 +20,10 @@
             <h4 style="margin-left: 20px;">{{packageName}}</h4>
 
             <div class="list-group">
-                    <div  class="list-group-item list-group-item-action" v-for="call in networkCallList">
-                        <div v-on:click="currentNetworkCall = call">
+                    <div class="list-group-item list-group-item-action" v-for="call in networkCallList">
+
+                        <div @click="()=>{currentNetworkCall = call, currentNetworkCallExpanded = !currentNetworkCallExpanded}">
+
                         <h4><span v-bind:class="[call.responseStatusCode == 200 ? 'label-success' : 'label-default']" 
                             class="label">{{call.responseStatusCode}}  {{call.requestMethod}}</span></h4>
     
@@ -30,7 +32,7 @@
                           <p>{{getResponseTimeString(call)}}</p>
 
                         </div>
-                            <div v-if="currentNetworkCall === call">
+                            <div v-if="currentNetworkCall.uri === call.uri && currentNetworkCallExpanded">
                                     <div class="row">
                                             <div class="col-sm-6">
                                               <h4 style="font-weight:bold;">Request</h4>
@@ -67,7 +69,7 @@
 
                                             <div v-if="currentNetworkCall.requestString != ''">
                                                     <p style="font-weight: bold;">Request Body</p>
-                                                    <p class="text-box">{{beautifyJson(currentNetworkCall.requestString)}}</p>
+                                                    <p class="text-box-body">{{beautifyJson(currentNetworkCall.requestString)}}</p>
                                                 </div>
 
                                             <div>
@@ -101,7 +103,7 @@
 
                                             <div>
                                                     <p style="font-weight: bold;">Response Body</p>
-                                                    <p class="text-box">{{beautifyJson(currentNetworkCall.responseString)}}</p>
+                                                    <p class="text-box-body">{{beautifyJson(currentNetworkCall.responseString)}}</p>
 
                                             </div>
                 

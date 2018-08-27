@@ -1,10 +1,17 @@
 package com.naman14.spider.server
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.koushikdutta.async.http.server.AsyncHttpServer
 import com.koushikdutta.async.callback.DataCallback
 import com.koushikdutta.async.http.WebSocket
@@ -20,6 +27,7 @@ import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.koushikdutta.async.http.body.AsyncHttpRequestBody
+import com.naman14.spider.R
 import org.json.JSONObject
 
 class ClientServer(context: Context) {
@@ -33,6 +41,11 @@ class ClientServer(context: Context) {
 
     private val socketList = ArrayList<WebSocket>()
 
+    companion object {
+        const val PORT = 6060
+        const val CHANNEL_ID = "spider-monitor"
+    }
+
     init {
         startServer(context)
     }
@@ -43,11 +56,14 @@ class ClientServer(context: Context) {
 
         websocketServer = AsyncHttpServer()
         websocketServer.websocket("/", null, websocketCallback)
-        websocketServer.listen(6061)
+        websocketServer.listen(PORT + 1)
 
         httpServer = AsyncHttpServer()
         httpServer.get(".*.", httpCallback)
-        httpServer.listen(6060)
+        httpServer.listen(PORT)
+
+        Log.d("Spider", "SPIDER:: Monitor network at  http://"+ Utils.getAddressLog(context, PORT) + "in your browser")
+        showNotification(context)
     }
 
     private fun initRequestHandler(context: Context) {
@@ -98,12 +114,13 @@ class ClientServer(context: Context) {
             val liveData = memoryDb.getAllRequests()
             Handler(Looper.getMainLooper()).post({
                 liveData.observeForever(object: Observer<List<RequestEntity>> {
-                    override fun onChanged(it: List<RequestEntity>) {
-                        sendRequests(it)
+                    override fun onChanged(it: List<RequestEntity>?) {
+                        it?.let {
+                            sendRequests(it)
+                        }
                     }
                 })
             })
-
         }
     }
 
@@ -111,8 +128,26 @@ class ClientServer(context: Context) {
 
     }
 
-    fun sendRequests(requests: List<RequestEntity>) {
+    private fun sendRequests(requests: List<RequestEntity>) {
         socketList.sendToAll(requests.toJSONString())
+    }
+
+    private fun showNotification(context: Context) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =  NotificationChannel(CHANNEL_ID, "Spider network monitoring",
+                    NotificationManager.IMPORTANCE_LOW)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://"+ Utils.getAddressLog(context, PORT)))
+        builder.setSmallIcon(R.drawable.ic_notification)
+        builder.setContentText("Monitor network at " + Utils.getAddressLog(context, PORT))
+        builder.setContentIntent(PendingIntent.getActivity(context, 0, intent, 0))
+        builder.setContentTitle("Spider")
+        notificationManager.notify(888, builder.build())
     }
 
 }

@@ -35,11 +35,15 @@ var app = new Vue({
     data: {
       networkCallList: [],
       currentNetworkCall: {},
+      currentNetworkCallExpanded: false,
       deviceName: "",
       packageName: ""
     },
     methods: {
         getResponseTimeString: function (call) {
+            if (call.responseReceivedAt == 0) {
+                return "Pending"
+            }
             return Number((call.responseReceivedAt - call.requestSentAt) / 1000000).toFixed(1) + " ms"
           },
         parseJson: function(jsonString) {

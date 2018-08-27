@@ -22,7 +22,7 @@ object Utils {
                 ipAddress shr 8 and 0xff,
                 ipAddress shr 16 and 0xff,
                 ipAddress shr 24 and 0xff)
-        return "SPIDER:: Monitor network at  http://$formattedIpAddress:$port in your browser"
+        return "$formattedIpAddress:$port"
     }
 
     fun detectMimeType(fileName: String): String? {

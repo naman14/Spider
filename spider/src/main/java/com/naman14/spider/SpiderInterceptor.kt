@@ -33,7 +33,6 @@ class SpiderInterceptor: Interceptor {
             interceptor.memoryDb = SpiderDatabase.getMemoryInstance(context)!!.requestsDao()
             interceptor.diskDb = SpiderDatabase.getDiskInstance(context)!!.requestsDao()
             interceptor.server = ClientServer(context)
-            Log.d("Spider", Utils.getAddressLog(context, 6060))
             return interceptor
         }
     }
