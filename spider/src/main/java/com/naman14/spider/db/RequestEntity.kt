@@ -1,9 +1,10 @@
 package com.naman14.spider.db
 
-import androidx.annotation.NonNull
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
+import android.support.annotation.NonNull
+
 
 @Entity(tableName = "requests")
 data class  RequestEntity(@PrimaryKey(autoGenerate = false) @NonNull var uri: String = "",

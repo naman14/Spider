@@ -1,7 +1,7 @@
 package com.naman14.spider.db
 
-import androidx.lifecycle.LiveData
-import androidx.room.*
+import android.arch.lifecycle.LiveData
+import android.arch.persistence.room.*
 
 @Dao
 interface RequestsDao {

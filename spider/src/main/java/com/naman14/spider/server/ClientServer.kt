@@ -3,15 +3,15 @@ package com.naman14.spider.server
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.support.v4.app.NotificationCompat
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.koushikdutta.async.http.server.AsyncHttpServer
 import com.koushikdutta.async.callback.DataCallback
 import com.koushikdutta.async.http.WebSocket
@@ -23,7 +23,6 @@ import com.naman14.spider.db.SpiderDatabase
 import com.naman14.spider.sendToAll
 import com.naman14.spider.toJSONString
 import com.naman14.spider.utils.Utils
-import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.koushikdutta.async.http.body.AsyncHttpRequestBody

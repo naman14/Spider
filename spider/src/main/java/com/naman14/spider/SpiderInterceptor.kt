@@ -1,18 +1,15 @@
 package com.naman14.spider
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.naman14.spider.db.RequestsDao
 import com.naman14.spider.db.SpiderDatabase
 import com.naman14.spider.models.NetworkCall
 import com.naman14.spider.server.ClientServer
-import com.naman14.spider.utils.Utils
-import okhttp3.*
 import java.nio.charset.Charset
 import com.google.gson.reflect.TypeToken
 import com.naman14.spider.models.NetworkResponse
-import okhttp3.RequestBody
+import okhttp3.*
 
 class SpiderInterceptor: Interceptor {
 

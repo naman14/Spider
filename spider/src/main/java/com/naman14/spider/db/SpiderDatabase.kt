@@ -1,7 +1,9 @@
 package com.naman14.spider.db
 
+import android.arch.persistence.room.Database
+import android.arch.persistence.room.Room
+import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import androidx.room.*
 
 @Database(entities = arrayOf(RequestEntity::class), version = 4)
 abstract class SpiderDatabase: RoomDatabase() {
