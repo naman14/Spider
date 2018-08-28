@@ -36,15 +36,10 @@
           <option name="languageVersion" value="1.2" />
           <option name="apiVersion" value="1.2" />
           <option name="pluginOptions">
-            <array>
-              <option value="plugin:org.jetbrains.kotlin.android:experimental=false" />
-              <option value="plugin:org.jetbrains.kotlin.android:enabled=true" />
-              <option value="plugin:org.jetbrains.kotlin.android:defaultCacheImplementation=hashMap" />
-            </array>
+            <array />
           </option>
           <option name="pluginClasspaths">
             <array>
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.30/680ff8d567db8dec157cd9344f0a1d2b5e4d651b/kotlin-android-extensions-1.2.30.jar" />
               <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.30/75c470067bc6c79bddeaa63ba15a1ce39db2d24a/kotlin-annotation-processing-gradle-1.2.30.jar" />
             </array>
           </option>
@@ -146,53 +141,47 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: androidx.vectordrawable:vectordrawable-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.sqlite:sqlite-framework-2.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.0.0-alpha1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-runtime-2.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: com.squareup.retrofit2:retrofit:2.1.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.documentfile:documentfile-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-2.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.appcompat:appcompat-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.swiperefreshlayout:swiperefreshlayout-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.customview:customview-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.drawerlayout:drawerlayout-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.room:room-runtime-2.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.core:core-ktx-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.slidingpanelayout:slidingpanelayout-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.room:room-common:2.0.0-alpha1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.cursoradapter:cursoradapter-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.30@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.viewpager:viewpager-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.fragment:fragment-ktx-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime-2.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: com.squareup.retrofit2:converter-gson:2.1.0@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-service-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-extensions-2.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-service-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.5@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.0.0-alpha1@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-runtime-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.sqlite:sqlite-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.annotation:annotation:1.0.0-alpha1@jar" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.retrofit2:retrofit:2.1.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.documentfile:documentfile-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: com.koushikdutta.async:androidasync-2.2.1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.interpolator:interpolator-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-process-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0-alpha1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.41@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.swiperefreshlayout:swiperefreshlayout-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-core-ui-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.customview:customview-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-core-2.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.drawerlayout:drawerlayout-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.loader:loader-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.fragment:fragment-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.8.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.localbroadcastmanager:localbroadcastmanager-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-viewmodel-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.media:media-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.room:room-runtime-2.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.slidingpanelayout:slidingpanelayout-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.30@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-core-utils-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.room:room-common:2.0.0-alpha1@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.0.0-alpha1@jar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-v4-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.cursoradapter:cursoradapter-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.print:print-1.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.vectordrawable:vectordrawable-animated-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.legacy:legacy-support-v4-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.30@jar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.viewpager:viewpager-1.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: androidx.coordinatorlayout:coordinatorlayout-1.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.arch.core:core-runtime-2.0.0-alpha1" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.3.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.core:core-1.0.0-alpha1" level="project" />
   </component>
