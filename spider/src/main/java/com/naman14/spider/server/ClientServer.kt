@@ -81,6 +81,13 @@ class ClientServer(context: Context) {
                         diskDb.insertRequest(requestEntity)
                         response.send("Success")
                     }
+                    "resetCall" -> {
+                        val body: AsyncHttpRequestBody<JSONObject> = request.body as AsyncHttpRequestBody<JSONObject>
+                        val type = object : TypeToken<RequestEntity>() {}.type
+                        val requestEntity: RequestEntity = Gson().fromJson(body.get().toString(), type)
+                        diskDb.deleteRequest(requestEntity)
+                        response.send("Success")
+                    }
                     "getDeviceInfo" -> {
                         response.send(JSONObject().put("deviceName", Build.MODEL).put("packageName", Utils.getPackageName(context)))
                     }

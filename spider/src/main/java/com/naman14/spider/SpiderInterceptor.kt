@@ -80,6 +80,7 @@ class SpiderInterceptor: Interceptor {
             }
 
             val modifiedCall = NetworkCall(modifiedRequest.build(), null)
+            modifiedCall.isModified = networkCall.isModified
             memoryDb.insertRequest(modifiedCall.toRequestEntity())
 
             networkCall.networkResponse?.headerMap?.let {

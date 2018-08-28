@@ -66,7 +66,13 @@ var app = new Vue({
         saveModifiedCall: function(call) {
             this.modifiedNetworkCall = call
             makeServerCall("http://"+ host + ":" + port +"?command=updateCall", JSON.stringify(this.modifiedNetworkCall), function(response) {
-                console.log("call modified")
+                
+            })
+        },
+        resetModifiedCall: function(call) {
+            this.modifiedNetworkCall = {}
+            makeServerCall("http://"+ host + ":" + port +"?command=resetCall", JSON.stringify(call), function(response) {
+                
             })
         }
     }
