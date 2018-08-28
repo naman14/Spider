@@ -3,7 +3,7 @@ package com.naman14.spider.db
 import android.content.Context
 import androidx.room.*
 
-@Database(entities = arrayOf(RequestEntity::class), version = 3)
+@Database(entities = arrayOf(RequestEntity::class), version = 4)
 abstract class SpiderDatabase: RoomDatabase() {
 
     abstract fun requestsDao(): RequestsDao

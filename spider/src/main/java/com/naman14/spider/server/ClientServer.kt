@@ -60,9 +60,10 @@ class ClientServer(context: Context) {
 
         httpServer = AsyncHttpServer()
         httpServer.get(".*.", httpCallback)
+        httpServer.post(".*.", httpCallback)
         httpServer.listen(PORT)
 
-        Log.d("Spider", "SPIDER:: Monitor network at  http://"+ Utils.getAddressLog(context, PORT) + "in your browser")
+        Log.d("Spider", "SPIDER:: Monitor network at  http://"+ Utils.getAddressLog(context, PORT) + " in your browser")
         showNotification(context)
     }
 
@@ -74,9 +75,9 @@ class ClientServer(context: Context) {
             if (command != null && command.isNotEmpty()) {
                 when (command) {
                     "updateCall" -> {
-                        val body: AsyncHttpRequestBody<String> = request.body as AsyncHttpRequestBody<String>
+                        val body: AsyncHttpRequestBody<JSONObject> = request.body as AsyncHttpRequestBody<JSONObject>
                         val type = object : TypeToken<RequestEntity>() {}.type
-                        val requestEntity: RequestEntity = Gson().fromJson(body.get(), type)
+                        val requestEntity: RequestEntity = Gson().fromJson(body.get().toString(), type)
                         diskDb.insertRequest(requestEntity)
                         response.send("Success")
                     }

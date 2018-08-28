@@ -18,4 +18,5 @@ data class  RequestEntity(@PrimaryKey(autoGenerate = false) @NonNull var uri: St
                           @ColumnInfo(name = "response_headers") var responseHeaders: String? = null,
                           @ColumnInfo(name = "response_received_at") var responseReceivedAt: Long? = 0,
                           @ColumnInfo(name = "request_successful") var isSuccessful: Boolean? = false,
-                          @ColumnInfo(name = "curl") var curl: String? = null)
+                          @ColumnInfo(name = "curl") var curl: String? = null,
+                          @ColumnInfo(name = "modified") var isModified: Boolean? = false)

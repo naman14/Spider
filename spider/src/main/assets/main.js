@@ -8,7 +8,7 @@ $( document ).ready(function() {
 
         ws.onopen = function () {
             console.log("Connection open");
-            makeServerCall("http://"+ host + ":" + port +"?command=getDeviceInfo ", function(response) {
+            makeServerCall("http://"+ host + ":" + port +"?command=getDeviceInfo", null, function(response) {
                 var info  = JSON.parse(response)
                 app.deviceName = info.deviceName
                 app.packageName = info.packageName
@@ -35,6 +35,7 @@ var app = new Vue({
     data: {
       networkCallList: [],
       currentNetworkCall: {},
+      modifiedNetworkCall: {},
       currentNetworkCallExpanded: false,
       deviceName: "",
       packageName: ""
@@ -58,17 +59,27 @@ var app = new Vue({
             } catch(error) {
                 return jsonString
             }
+        },
+        createModifiedCall: function(call) {
+            this.modifiedNetworkCall = JSON.parse(JSON.stringify(call));
+        },
+        saveModifiedCall: function(call) {
+            this.modifiedNetworkCall = call
+            makeServerCall("http://"+ host + ":" + port +"?command=updateCall", JSON.stringify(this.modifiedNetworkCall), function(response) {
+                console.log("call modified")
+            })
         }
     }
   })    
 })
 
-function makeServerCall(url, callback) {
+function makeServerCall(url, body, callback) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
             callback(xmlHttp.responseText);
     }
-    xmlHttp.open("GET", url, true);
-    xmlHttp.send(null);
+    xmlHttp.open("POST", url, true);
+    xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlHttp.send(body);
 }

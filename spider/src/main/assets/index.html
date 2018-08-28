@@ -26,6 +26,8 @@
 
                         <h4><span v-bind:class="[call.responseStatusCode == 200 ? 'label-success' : 'label-default']" 
                             class="label">{{call.responseStatusCode}}  {{call.requestMethod}}</span></h4>
+
+                        <h4 v-if="call.isModified"><span class="label, label-danger">MODIFIED</span></h4>
     
                           <h3 style="font-weight:bold;">{{call.path}}</h3>
     
@@ -102,7 +104,11 @@
                                                 </div>
 
                                             <div>
-                                                    <p style="font-weight: bold;">Response Body</p>
+                                                    <p style="font-weight: bold;" @click="createModifiedCall(currentNetworkCall)" data-toggle="modal" 
+                                                    data-target="#editBody">Response Body<span style="padding-left:10px; display:inline-block;">
+                                                            <img src="edit.png">
+                                                          </span>
+                                                        </p>    
                                                     <p class="text-box-body">{{beautifyJson(currentNetworkCall.responseString)}}</p>
 
                                             </div>
@@ -113,6 +119,29 @@
                             </div>
                         </div>        
             </div>
+
+
+
+            <div id="editBody" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Modify Response Body</h4>
+                        </div>
+                        <div class="modal-body">
+                                <div class="form-group">
+                                    <textarea v-model="modifiedNetworkCall.responseString" class="form-control" rows="10"></textarea>
+                                </div>
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" @click="saveModifiedCall(modifiedNetworkCall)" class="btn btn-default" data-dismiss="modal">Save</button>
+                        </div>
+                      </div>
+                  
+                    </div>
+                  </div>
 
            
     </div>

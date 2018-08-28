@@ -10,6 +10,7 @@ class NetworkCall(request: Request, response: Response?) {
     var request: Request
     var networkRequest: NetworkRequest
     var networkResponse: NetworkResponse? = null
+    var isModified: Boolean = false
 
     init {
         this.id = generateId(request)

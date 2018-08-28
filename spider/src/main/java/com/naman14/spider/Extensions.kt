@@ -32,7 +32,8 @@ fun NetworkCall.toRequestEntity(): RequestEntity {
             networkResponse?.headerMap?.toJsonString(),
             networkResponse?.responseReceivedAtNano,
             successful,
-            NetworkUtils.getCurlRequest(this))
+            NetworkUtils.getCurlRequest(this),
+            this.isModified)
 }
 
 fun List<WebSocket>.sendToAll(data: String) {

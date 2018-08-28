@@ -54,36 +54,44 @@ class SpiderInterceptor: Interceptor {
                 modifiedRequest.addHeader(k, networkCall.networkRequest.headerMap[k])
             }
 
-            val requestBody = originalRequest.body()
-            var modifiedRequestBody: RequestBody? = null
+            originalRequest.body()?.let {
+                val requestBody = originalRequest.body()
+                var modifiedRequestBody: RequestBody? = null
 
-            when (requestBody.contentType().subtype()) {
-                "json" -> {
-                    modifiedRequestBody = RequestBody.create(requestBody.contentType(),
-                            networkCall.networkRequest.requestString)
-                }
-                "form" -> {
-                    //modify request body map
-                    val formBody = FormBody.Builder()
-                    for (k in networkCall.networkRequest.bodyMap.keys) {
-                        formBody.add(k, networkCall.networkRequest.bodyMap[k])
+                when (requestBody.contentType().subtype()) {
+                    "json" -> {
+                        modifiedRequestBody = RequestBody.create(requestBody.contentType(),
+                                networkCall.networkRequest.requestString)
                     }
-                    modifiedRequestBody = RequestBody.create(requestBody.contentType(),
-                            networkCall.networkRequest.bodyMap.toJsonString())
+                    "form" -> {
+                        //modify request body map
+                        val formBody = FormBody.Builder()
+                        for (k in networkCall.networkRequest.bodyMap.keys) {
+                            formBody.add(k, networkCall.networkRequest.bodyMap[k])
+                        }
+                        modifiedRequestBody = RequestBody.create(requestBody.contentType(),
+                                networkCall.networkRequest.bodyMap.toJsonString())
+                    }
                 }
-            }
 
-            modifiedRequestBody?.let {
-                modifiedRequest.post(modifiedRequestBody)
+                modifiedRequestBody?.let {
+                    modifiedRequest.post(modifiedRequestBody)
+                }
             }
 
             val modifiedCall = NetworkCall(modifiedRequest.build(), null)
             memoryDb.insertRequest(modifiedCall.toRequestEntity())
 
+            networkCall.networkResponse?.headerMap?.let {
+                for (k in it.keys) {
+                    modifiedResponse.addHeader(k, it[k])
+                }
+            }
             //modify response only if a custom response body is set
             networkCall.networkResponse?.responseString?.let {
                 modifiedResponse.request(modifiedRequest.build())
                 modifiedResponse.protocol(Protocol.HTTP_1_0)
+
                 //always return 200 if custom response body
                 modifiedResponse.code(200)
                 modifiedResponse.body(ResponseBody.create(MediaType.parse("application/json"),
@@ -134,6 +142,12 @@ class SpiderInterceptor: Interceptor {
                     val headerMap: MutableMap<String, String> = Gson().fromJson(it, type)
                     originalCall.networkRequest.headerMap = headerMap
                 }
+                it.responseHeaders?.let {
+                    val type = object : TypeToken<MutableMap<String, String>>() {}.type
+                    val headerMap: MutableMap<String, String> = Gson().fromJson(it, type)
+                    originalCall.networkResponse?.headerMap = headerMap
+                }
+                originalCall.isModified = true
             }
 
         }
