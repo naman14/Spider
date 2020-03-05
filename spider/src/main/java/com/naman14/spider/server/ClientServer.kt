@@ -123,7 +123,7 @@ class ClientServer(context: Context) {
                 liveData.observeForever(object: Observer<List<RequestEntity>> {
                     override fun onChanged(it: List<RequestEntity>?) {
                         it?.let {
-                            sendRequests(it)
+                            sendRequests(it.reversed())
                         }
                     }
                 })

@@ -33,7 +33,7 @@ class NetworkCall(request: Request, response: Response?) {
 
     fun getFormattedNetworkCallTime(): String {
         networkResponse?.let { response ->
-            val networkCallTime = (response.responseReceivedAtNano - networkRequest.requestSentAtNano) / 1e3
+            val networkCallTime = (response.responseReceivedAt - networkRequest.requestSentAt) / 1e3
             return String.format("%.1fms", networkCallTime)
         }
         return ""

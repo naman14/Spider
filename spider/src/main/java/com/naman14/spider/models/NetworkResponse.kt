@@ -13,7 +13,7 @@ class NetworkResponse(response: Response?) {
     var responseString: String? = null
     var headerMap: MutableMap<String, String>? = null
     var networkRequest: NetworkRequest? = null
-    var responseReceivedAtNano: Long = 0
+    var responseReceivedAt: Long = 0
 
     init {
         response?.let {
@@ -22,7 +22,7 @@ class NetworkResponse(response: Response?) {
             this.responseString = ""
             this.headerMap = HashMap()
             this.networkRequest = NetworkRequest(response.request())
-            this.responseReceivedAtNano = System.nanoTime()
+            this.responseReceivedAt = System.currentTimeMillis()
             parseRequestForHeaderMap(response)
             parseRequestForResponseString(response)
         }

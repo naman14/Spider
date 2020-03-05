@@ -23,6 +23,7 @@
                   <button @click="resetModifiedCall(call)" style="display:inline-block; margin-right: 50px; position: absolute; right: 0;" v-if="call.isModified" type="button" class="btn btn-danger">Reset</button>
                   <h3 style="font-weight:bold;">{{call.path}}</h3>
                   <p>{{getResponseTimeString(call)}}</p>
+                  <p>{{getRequestTimestampString(call)}}</p>
                </div>
                <div v-if="currentNetworkCall.uri === call.uri && currentNetworkCallExpanded">
                   <div class="row">

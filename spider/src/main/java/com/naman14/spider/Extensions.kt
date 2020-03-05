@@ -26,11 +26,11 @@ fun NetworkCall.toRequestEntity(): RequestEntity {
             networkRequest.bodyMap.toJsonString(),
             networkRequest.requestString,
             networkRequest.method,
-            networkRequest.requestSentAtNano,
+            networkRequest.requestSentAt,
             networkResponse?.statusCode,
             networkResponse?.responseString,
             networkResponse?.headerMap?.toJsonString(),
-            networkResponse?.responseReceivedAtNano,
+            networkResponse?.responseReceivedAt,
             successful,
             NetworkUtils.getCurlRequest(this),
             this.isModified)

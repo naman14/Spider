@@ -45,8 +45,11 @@ var app = new Vue({
             if (call.responseReceivedAt == 0) {
                 return "Pending"
             }
-            return Number((call.responseReceivedAt - call.requestSentAt) / 1000000).toFixed(1) + " ms"
-          },
+            return (call.responseReceivedAt - call.requestSentAt) + " ms"
+         },
+        getRequestTimestampString: function (call) {
+             return formatDate(new Date(call.requestSentAt))
+         },
         parseJson: function(jsonString) {
             return JSON.parse(jsonString)
         },
@@ -88,4 +91,16 @@ function makeServerCall(url, body, callback) {
     xmlHttp.open("POST", url, true);
     xmlHttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlHttp.send(body);
+}
+
+function formatDate(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var seconds = date.getSeconds();
+  var ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ":" + seconds + ' ' + ampm;
+  return strTime;
 }

@@ -17,7 +17,7 @@ class NetworkRequest(request: Request?) {
     lateinit var headerMap: MutableMap<String, String>
     lateinit var bodyMap: MutableMap<String, String>
     lateinit var requestString: String
-    var requestSentAtNano: Long = 0
+    var requestSentAt: Long = 0
 
     init {
         request?.let {
@@ -26,7 +26,7 @@ class NetworkRequest(request: Request?) {
             this.headerMap = HashMap()
             this.bodyMap = HashMap()
             this.requestString = ""
-            this.requestSentAtNano = System.nanoTime()
+            this.requestSentAt = System.currentTimeMillis()
             parseRequestForHeaderMap(request)
             parseRequestForBodyMap(request)
             parseRequestForRequestString(request)
