@@ -1,1 +1,2 @@
 include ':app', ':spider'
+include ':spider-noop'
