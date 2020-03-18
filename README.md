@@ -16,7 +16,10 @@ allprojects {
     
     
 ```java
-implementation 'com.github.naman14:Spider:1.0'
+debugImplementation 'com.github.naman14.Spider:spider:1.2'
+
+// No-op version for release builds
+releaseImplementation 'com.github.naman14.Spider:spider-noop:1.2'
 ```
 
 Attach `SpiderInterceptor` to OkHttp client
